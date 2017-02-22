@@ -45,7 +45,7 @@ function xml2json(xml) {
     var t = function(v) {
         return v.getAttribute("type");
     };
-    f = function(f,a) {
+    var f = function(f,a) {
         var c = undefined;
         if (t(a)=='null') {
             c = null; 
