@@ -35,8 +35,8 @@
   });
 
   QUnit.test("testMsdn42ErronousExample", function( assert ) {
-    var json = '42';
-    var xml = '<root type="number"><!--comment--><?pi?>42</root>';
+    var json = 'null';
+    var xml = '<!--comment--><?pi?><root type="number">42</root>';
     assert.equal(xml2json(xml),json,"xml2json");
   });
 
@@ -90,6 +90,7 @@
   QUnit.test("testMsdnNullExample2", function( assert ) {
     var json = 'null';
     var xml = '<root type="null"></root>';
+    assert.equal(json2xml(json),xml,"json2xml");
     assert.equal(xml2json(xml),json,"xml2json");
   });
 
