@@ -50,7 +50,7 @@ function xml2json(xml) {
         if (t(a)=="null") {
             c = null; 
         } else if (t(a)=="boolean") {
-            b = a.textContent.substr(0,1);
+            var b = a.textContent.substr(0,1);
             c = ['1','t'].indexOf(b)!=-1;
         } else if (t(a)=="number") {
             c = Number(a.textContent); 
