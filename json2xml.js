@@ -1,3 +1,7 @@
+// Copyright: Maurits van der Schee <maurits@vdschee.nl>
+// Description: Convert from JSON to XML and back.
+// License: MIT
+
 function json2xml(json) {
     var a = JSON.parse(json)
     var c = document.createElement("root");
