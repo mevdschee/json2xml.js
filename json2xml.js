@@ -42,7 +42,7 @@ function xml2json(xml) {
     var dom = window.ActiveXObject ? (new ActiveXObject("Microsoft.XMLDOM")) : null;
     dom = dom ? dom : document.implementation.createDocument(null, "body");
     dom.firstChild.innerHTML = xml;
-    a = dom.firstChild.firstChild;
+    var a = dom.firstChild.firstChild;
     var t = function (v) {
         return v.getAttribute ? v.getAttribute("type") : "null";
     };
