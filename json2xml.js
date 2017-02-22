@@ -7,7 +7,7 @@ function json2xml(json) {
     var f = function(f,c,a,s) {
         c.setAttribute("type", t(a));
         if (t(a)!="array" && t(a)!="object") {
-            if(t(v)!="null") {
+            if(t(a)!="null") {
                 c.appendChild(document.createTextNode(a));
             }
         } else {

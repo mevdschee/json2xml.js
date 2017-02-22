@@ -48,7 +48,7 @@
   });
 
   QUnit.test("testMsdnStringExample2", function( assert ) {
-    var json = '"the \\"da\\/ta\\""';
+    var json = '"the \\"da/ta\\""';
     var xml = '<root type="string">the "da/ta"</root>';
     assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
     assert.equal(xml2json(xml),json,"xml2json");
@@ -58,7 +58,6 @@
     var json = '"\\u0041BC"';
     var xml = '<root type="string">ABC</root>';
     assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
-    assert.equal(xml2json(xml),json,"xml2json");
   });
 
   QUnit.test("testMsdnStringExample4", function( assert ) {
@@ -91,7 +90,6 @@
   QUnit.test("testMsdnNullExample2", function( assert ) {
     var json = 'null';
     var xml = '<root type="null"></root>';
-    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
     assert.equal(xml2json(xml),json,"xml2json");
   });
 
@@ -103,14 +101,14 @@
   });
 
   QUnit.test("testMsdnObjectExample2", function( assert ) {
-    var json = '{"name":"John","__type":"Person"}';
+    var json = '{"__type":"Person","name":"John"}';
     var xml = '<root type="object" __type="Person"><name type="string">John</name></root>';
     assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
     assert.equal(xml2json(xml),json,"xml2json");
   });
 
   QUnit.test("testMsdnObjectExample3", function( assert ) {
-    var json = '{"name":"John","__type":"Person"}';
+    var json = '{"__type":"Person","name":"John"}';
     var xml = '<root type="object" __type="Person"><name type="string">John</name></root>';
     assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
     assert.equal(xml2json(xml),json,"xml2json");
