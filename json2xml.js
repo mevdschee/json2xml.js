@@ -17,13 +17,13 @@ function json2xml(json) {
                     c.setAttribute("__type", v);
                 } else {
                     if(t(v)=="object") {
-                        var ch=c.appendChild(document.createElement(s?"item":k));
+                        var ch=c.appendChild(document.createElementNS(null,s?"item":k));
                         f(f,ch,v);
                     } else if(t(v)=="array") {
-                        var ch=c.appendChild(document.createElement(s?"item":k));
+                        var ch=c.appendChild(document.createElementNS(null,s?"item":k));
                         f(f,ch,v,true);
                     } else {
-                        var va = document.createElement(s?"item":k);
+                        var va = document.createElementNS(null,s?"item":k);
                         if(t(v)!="null") {
                             va.appendChild(document.createTextNode(v));
                         }
@@ -35,7 +35,7 @@ function json2xml(json) {
         }
     };
     f(f,c,a,t(a)=="array");
-    return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"+c.outerHTML;
+    return c.outerHTML;
 }
 
 function xml2json(xml) {
@@ -44,7 +44,7 @@ function xml2json(xml) {
     dom.firstChild.innerHTML = xml;
     a = dom.firstChild.firstChild;
     var t = function(v) {
-        return v.getAttribute("type");
+        return v.getAttribute?v.getAttribute("type"):"null";
     };
     var f = function(f,a) {
         var c = undefined;
