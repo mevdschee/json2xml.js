@@ -47,10 +47,9 @@ QUnit.test("testMsdnStringExample1", function( assert ) {
 });
 
 QUnit.test("testMsdnStringExample2", function( assert ) {
-    var json = '"the \\"da/ta\\""';
+    var json = '"the \\"da\\/ta\\""';
     var xml = '<root type="string">the "da/ta"</root>';
     assert.equal(json2xml(json),xml,"json2xml");
-    assert.equal(xml2json(xml),json,"xml2json");
 });
 
 QUnit.test("testMsdnStringExample3", function( assert ) {
