@@ -48,12 +48,12 @@ function xml2json(xml) {
     var f = function(f,a) {
         var c = undefined;
         if (t(a)=="null") {
-            c = null; 
+            c = null;
         } else if (t(a)=="boolean") {
-            var b = a.textContent.substr(0,1);
+            var b = a.textContent.toLowerCase().substr(0,1);
             c = ['1','t'].indexOf(b)!=-1;
         } else if (t(a)=="number") {
-            c = Number(a.textContent); 
+            c = Number(a.textContent);
         } else if (t(a)=="string") {
             c = a.textContent;
         } else if (t(a)=="object") {
