@@ -47,14 +47,14 @@ function xml2json(xml) {
     };
     var f = function(f,a) {
         var c = undefined;
-        if (t(a)=='null') {
+        if (t(a)=="null") {
             c = null; 
-        } else if (t(a)=='boolean') {
+        } else if (t(a)=="boolean") {
             b = a.textContent.substr(0,1);
             c = ['1','t'].indexOf(b)!=-1;
-        } else if (t(a)=='number') {
+        } else if (t(a)=="number") {
             c = Number(a.textContent); 
-        } else if (t(a)=='string') {
+        } else if (t(a)=="string") {
             c = a.textContent;
         } else if (t(a)=="object") {
             c = {};
