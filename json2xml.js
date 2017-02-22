@@ -39,7 +39,8 @@ function json2xml(json) {
 }
 
 function xml2json(xml) {
-    var dom = document.implementation.createDocument(null, "body");
+    var dom = window.ActiveXObject?(new ActiveXObject("Microsoft.XMLDOM")):null;
+    dom = dom?dome:document.implementation.createDocument(null, "body");
     dom.firstChild.innerHTML = xml;
     a = dom.firstChild.firstChild;
     var t = function(v) {

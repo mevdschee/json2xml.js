@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>QUnit Example</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.1.1.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.jquery.com/qunit/qunit-2.1.1.js"></script>
+  <script src="json2xml.js"></script>
+  <script>
+
+  QUnit.test("testComplexConversion", function( assert ) {
+    var json = '{"depth":false,"model":"TRX-120","width":100,"test":[{"me":null},2],"height":null}';
+    var xml = '<root type="object"><depth type="boolean">false</depth><model type="string">TRX-120</model><width type="number">100</width><test type="array"><item type="object"><me type="null"/></item><item type="number">2</item></test><height type="null"/></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnFirstExample", function( assert ) {
+    var json = '{"product":"pencil","price":12}';
+    var xml = '<root type="object"><product type="string">pencil</product><price type="number">12</price></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdn42ExampleWithoutXmlDeclaration", function( assert ) {
+    var json = '42';
+    var xml = '<root type="number">42</root>';
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdn42ErronousExample", function( assert ) {
+    var json = '42';
+    var xml = '<!--comment--><?pi?><root type="number">42</root>';
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnStringExample1", function( assert ) {
+    var json = '"42"';
+    var xml = '<root type="string">42</root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnStringExample2", function( assert ) {
+    var json = '"the \\"da\\/ta\\""';
+    var xml = '<root type="string">the "da/ta"</root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnStringExample3", function( assert ) {
+    var json = '"\\u0041BC"';
+    var xml = '<root type="string">ABC</root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnStringExample4", function( assert ) {
+    var json = '" A BC "';
+    var xml = '<root type="string"> A BC </root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+ 
+  QUnit.test("testMsdnNumberExample1", function( assert ) {
+    var json = '42';
+    var xml = '<root type="number">42</root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnBooleanExample1", function( assert ) {
+    var json = 'false';
+    var xml = '<root type="boolean">false</root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnNullExample1", function( assert ) {
+    var json = 'null';
+    var xml = '<root type="null"/>';
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+ 
+  QUnit.test("testMsdnNullExample2", function( assert ) {
+    var json = 'null';
+    var xml = '<root type="null"></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnObjectExample1", function( assert ) {
+    var json = '{"type1":"aaa","type2":"bbb"}';
+    var xml = '<root type="object"><type1 type="string">aaa</type1><type2 type="string">bbb</type2></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnObjectExample2", function( assert ) {
+    var json = '{"name":"John","__type":"Person"}';
+    var xml = '<root type="object" __type="Person"><name type="string">John</name></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnObjectExample3", function( assert ) {
+    var json = '{"name":"John","__type":"Person"}';
+    var xml = '<root type="object" __type="Person"><name type="string">John</name></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnObjectExample4", function( assert ) {
+    var json = '{"__type":"\\\\abc"}';
+    var xml = '<root type="object" __type="\\abc"/>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnObjectExample5", function( assert ) {
+    var json = '{"ccc":"aaa","ddd":"bbb"}';
+    var xml = '<root type="object"><ccc type="string">aaa</ccc><ddd type="string">bbb</ddd></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnArrayExample1", function( assert ) {
+    var json = '["aaa","bbb"]';
+    var xml = '<root type="array"><item type="string">aaa</item><item type="string">bbb</item></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnLargeExample1", function( assert ) {
+    var json = '{"myLocalName":"aaa"}';
+    var xml = '<root type="object"><myLocalName type="string">aaa</myLocalName></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnLargeExample2", function( assert ) {
+    var json = '{"myLocalName1":"myValue1","myLocalName2":2,"myLocalName3":{"myNestedName1":true,"myNestedName2":null}}';
+    var xml = '<root type="object"><myLocalName1 type="string">myValue1</myLocalName1><myLocalName2 type="number">2</myLocalName2><myLocalName3 type="object"><myNestedName1 type="boolean">true</myNestedName1><myNestedName2 type="null"/></myLocalName3></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  QUnit.test("testMsdnLargeExample3", function( assert ) {
+    var json = '["myValue1",2,[true,null]]';
+    var xml = '<root type="array"><item type="string">myValue1</item><item type="number">2</item><item type="array"><item type="boolean">true</item><item type="null"/></item></root>';
+    assert.equal((new XMLSerializer()).serializeToString($.parseXML(json2xml(json))),"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+  });
+
+  </script>
+</body>
+</html>
