@@ -155,6 +155,63 @@ QUnit.test("testMsdnLargeExample3", function( assert ) {
     assert.equal(xml2json(xml),json,"xml2json");
 });
 
+QUnit.test("testColonInKey", function( assert ) {
+    var json = '{"a:b":true}';
+    var xml = '<root type="object"><a:b type="boolean">true</a:b></root>';
+    assert.throws(function(){json2xml(json);},/NamespaceError/,"json2xml");
+});
+
+QUnit.test("testAmpersandInKey", function( assert ) {
+    var json = '{"a&b":true}';
+    var xml = '<root type="object"><a&b type="boolean">true</a&b></root>';
+    assert.throws(function(){json2xml(json);},/InvalidCharacterError/,"json2xml");
+});
+
+QUnit.test("testSlashInKey", function( assert ) {
+    var json = '{"a/b":true}';
+    var xml = '<root type="object"><a/b type="boolean">true</a/b></root>';
+    assert.throws(function(){json2xml(json);},/InvalidCharacterError/,"json2xml");
+});
+
+QUnit.test("testUnderscoreInKey", function( assert ) {
+    var json = '{"a_b":true}';
+    var xml = '<root type="object"><a_b type="boolean">true</a_b></root>';
+    assert.equal(json2xml(json),xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+});
+
+QUnit.test("testHyphenInKey", function( assert ) {
+    var json = '{"a-b":true}';
+    var xml = '<root type="object"><a-b type="boolean">true</a-b></root>';
+    assert.equal(json2xml(json),xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+});
+
+QUnit.test("testDotInKey", function( assert ) {
+    var json = '{"a.b":true}';
+    var xml = '<root type="object"><a.b type="boolean">true</a.b></root>';
+    assert.equal(json2xml(json),xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+});
+
+QUnit.test("testMiddleDotInKey", function( assert ) {
+    var json = '{"a\u00b7b":true}';
+    var xml = '<root type="object"><a·b type="boolean">true</a·b></root>';
+    assert.equal(json2xml(json),xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+});
+
+QUnit.test("testAllAscii7bitInValue", function( assert ) {
+    var str = '';
+    for (var i=32;i<127;i++) {
+        str+=String.fromCharCode(i);
+    }
+    var json = JSON.stringify(str);
+    var xml = '<root type="string"> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</root>';
+    assert.equal(json2xml(json),xml,"json2xml");
+    assert.equal(xml2json(xml),json,"xml2json");
+});
+
 </script>
 </body>
 </html>
